@@ -14,7 +14,10 @@
 
 		<p>email is</p>
 		{{ new_user.email }}
-    	<a href= "#" rel="nofollow">Sign out</a>
+
+		<form action="{% url "user_signout" %}" method="post">{% csrf_token %}
+		    <input id="user_logout" type="submit" value="Signout">
+		</form>
     {% endif %}
 {% else %}
 	<a href="{% url "user_signin"%}">Sig in</a>

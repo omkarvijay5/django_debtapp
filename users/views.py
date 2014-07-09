@@ -50,11 +50,20 @@ class LoginView(generic.FormView):
 				login(self.request, user)
 				return HttpResponseRedirect(reverse('user_details', kwargs={'username': user.username}))
 			else:
-				#"disabled account error message"
+				print "disabled account error message"
 		else:
 			return HttpResponseRedirect(reverse('user_signin'))
 
-
 user_login = LoginView.as_view()
+
+
+class LogoutView(generic.View):
+
+	def post(self, request, *args, **kwargs):
+		logout(request)
+		return HttpResponseRedirect(reverse('user_signup'))
+
+user_logout = LogoutView.as_view()
+
 
 
