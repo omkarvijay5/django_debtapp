@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.views import generic
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from users import forms
 from django.http import HttpResponseRedirect, HttpResponse
 # Create your views here.
@@ -36,4 +36,25 @@ class DetailsView(generic.DetailView):
 		return new_user
 
 details = DetailsView.as_view()
+
+class LoginView(generic.FormView):
+	template_name = 'users/login.html'
+	form_class = forms.UserLoginForm 
+
+	def form_valid(self, form):
+		username = form.cleaned_data['name']
+		password = form.cleaned_data['password']
+		user = authenticate(username=username, password=password)
+		if user is not None:
+			if user.is_active:
+				login(self.request, user)
+				return HttpResponseRedirect(reverse('user_details', kwargs={'username': user.username}))
+			else:
+				#"disabled account error message"
+		else:
+			return HttpResponseRedirect(reverse('user_signin'))
+
+
+user_login = LoginView.as_view()
+
 

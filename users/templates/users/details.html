@@ -1,11 +1,21 @@
-<h1>User created successfully</h1>
+{% if user.is_authenticated %}
+	{% if user.is_active %}
 
-<p>username is</p>
-{{ new_user.username }}
+		<h1>User created successfully</h1>
 
-<p>first name is</p>
-{{ new_user.first_name }}
-<p>lastname is</p>
-{{ new_user.last_name }}
-<p>email is</p>
-{{ new_user.email }}
+		<p>username is</p>
+		{{ new_user.username }}
+
+		<p>first name is</p>
+		{{ new_user.first_name }}
+
+		<p>lastname is</p>
+		{{ new_user.last_name }}
+
+		<p>email is</p>
+		{{ new_user.email }}
+    	<a href= "#" rel="nofollow">Sign out</a>
+    {% endif %}
+{% else %}
+	<a href="{% url "user_signin"%}">Sig in</a>
+{% endif %}

@@ -24,7 +24,15 @@ class UserRegistrationForm(forms.ModelForm):
 			raise forms.ValidationError("Email has already been taken")
 		return email
 
-
 	class Meta:
 		model = User
 		fields = ('username', 'first_name', 'last_name', 'email', 'password', 'password_confirmation',)
+
+class UserLoginForm(forms.ModelForm):
+	name = forms.CharField()
+	password = forms.CharField(widget=forms.PasswordInput())
+	password_confirmation = forms.CharField(widget=forms.PasswordInput())
+	
+	class Meta:
+		model = User
+		fields = ('name', 'password', 'password_confirmation',)
