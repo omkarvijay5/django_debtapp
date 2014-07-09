@@ -16,6 +16,13 @@ class UserRegistrationForm(forms.ModelForm):
 		password_confirmation = self.cleaned_data.get('password_confirmation')
 		if password != password_confirmation:
 			raise forms.ValidationError("Passwords do not match")
+		return password_confirmation
+
+	def clean_email(self):
+		email = self.cleaned_data['email']
+		if User.objects.filter(email=email).exists():
+			raise forms.ValidationError("Email has already been taken")
+		return email
 
 
 	class Meta:
