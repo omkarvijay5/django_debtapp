@@ -11,6 +11,12 @@ class UserRegistrationForm(forms.ModelForm):
 	password_confirmation = forms.CharField(widget=forms.PasswordInput())
 	password = forms.CharField(widget=forms.PasswordInput())
 
+	def clean_password_confirmation(self):
+		password = self.cleaned_data.get('password')
+		password_confirmation = self.cleaned_data.get('password_confirmation')
+		if password != password_confirmation:
+			raise forms.ValidationError("Passwords do not match")
+
 
 	class Meta:
 		model = User
