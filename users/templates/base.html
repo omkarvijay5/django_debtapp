@@ -31,8 +31,8 @@
                     <li><a href="{% url "auth_logout" %}">Sign out</a></li>
                     <li><a href="{% url "auth_password_change" %}" title="ChangePassword"> ChangePassword</a></li>
                 {% else %}
-                    <li><a href="{% url "user_signup" %}" title="SignUp"> Sign up</a></li>
-                    <li><a href="{% url "user_signin"%}">Sign in</a></li>
+                    <li><a href="{% url "registration_register" %}" title="SignUp"> Sign up</a></li>
+                    <li><a href="{% url "auth_login"%}">Sign in</a></li>
                 {% endif %}
                 </div>
             </div>

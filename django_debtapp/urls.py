@@ -11,6 +11,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^users/', include('users.urls')),
     (r'^accounts/', include('registration.backends.default.urls')),
-    (r'^', include('django.contrib.auth.urls')),
+    (r'^accounts/', include('registration.auth_urls')),
     (r'^$', TemplateView.as_view(template_name="index.html")),
 )
