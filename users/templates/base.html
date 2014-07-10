@@ -1,0 +1,47 @@
+{% load i18n %}
+
+<html>
+  <head>
+    <title>Debt App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="{{ STATIC_URL }}jquery/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/base.css">
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}users/style.css">
+    {% block javascript %}
+    {% endblock %}
+
+
+
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container">
+                <div class="navbar-header">
+                  <a class="navbar-brand" href="/">Debt App</a>
+                </div>
+                <div class="nav navbar-nav navbar-right">
+
+                {% if user.is_authenticated %}
+                    <li><a href="#"> Welcome: {% firstof user.first_name user.username%}</a></li>
+                    <li><a href="{% url "auth_logout" %}">Sign out</a></li>
+                    <li><a href="{% url "auth_password_change" %}" title="ChangePassword"> ChangePassword</a></li>
+                {% else %}
+                    <li><a href="{% url "user_signup" %}" title="SignUp"> Sign up</a></li>
+                    <li><a href="{% url "user_signin"%}">Sign in</a></li>
+                {% endif %}
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="padding-top: 100px;">{% block content %}{% endblock %}</div>
+    </div>
+  </body>
+</html>
+
+
