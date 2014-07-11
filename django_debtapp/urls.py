@@ -4,13 +4,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'django_debtapp.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^accounts/', include('registration.backends.default.urls')),
+    url(r'^accounts/', include('registration.auth_urls')),
+    url(r'^$', TemplateView.as_view(template_name="index.html")),
     url(r'^users/', include('users.urls')),
-    (r'^accounts/', include('registration.backends.default.urls')),
-    (r'^accounts/', include('registration.auth_urls')),
-    (r'^$', TemplateView.as_view(template_name="index.html")),
 )
