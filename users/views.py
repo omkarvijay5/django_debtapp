@@ -35,8 +35,11 @@ class UserDetails(generic.DetailView):
 	context_object_name = 'new_user'
 
 	def get_object(self):
-		username = self.kwargs['username']
-		user = User.objects.get(username__exact=username)
+		if self.kwargs['username']:
+			username = self.kwargs['username']
+			user = User.objects.get(username__exact=username)
+		else:
+			user = self.request.user
 		return user
 
 user_details = UserDetails.as_view()
