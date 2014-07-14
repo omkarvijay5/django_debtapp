@@ -4,7 +4,7 @@
 {% block content %}
 	{% if friends %}
 		{% for friend in friends %}
-			{{ friend.username }}
+			<a href="{% url "debt_user_friends" friend.username %}">{{ friend.username }}</a>
 		{% endfor %}
 	{% endif %}
 {% endblock %} 

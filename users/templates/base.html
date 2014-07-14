@@ -27,7 +27,7 @@
                 <div class="nav navbar-nav navbar-right">
 
                 {% if user.is_authenticated %}
-                    <li><a href="#"> Welcome: {% firstof user.first_name user.username%}</a></li>
+                    <li><a href="{% url "home_page" %}"> Welcome: {% firstof user.first_name user.username%}</a></li>
                     <li><a href="{% url "auth_logout" %}">Sign out</a></li>
                     <li><a href="{% url "auth_password_change" %}" title="ChangePassword"> ChangePassword</a></li>
                 {% else %}
