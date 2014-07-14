@@ -6,6 +6,7 @@ from registration import signals
 from registration.models import RegistrationProfile
 from registration.views import ActivationView as BaseActivationView
 from registration.views import RegistrationView as BaseRegistrationView
+from users.models import UserProfile
 
 
 class RegistrationView(BaseRegistrationView):
@@ -78,6 +79,8 @@ class RegistrationView(BaseRegistrationView):
             site = RequestSite(request)
         new_user = RegistrationProfile.objects.create_inactive_user(username, email,
                                                                     password, site)
+        default_user_profile = UserProfile.objects.create(profile=new_user)
+        default_user_profile.save()
         signals.user_registered.send(sender=self.__class__,
                                      user=new_user,
                                      request=request)
