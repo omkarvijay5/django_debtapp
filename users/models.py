@@ -12,9 +12,15 @@ class Friendship(models.Model):
 	owe = models.IntegerField(null=True, blank=True)
 
 
+class Transactions(models.Model):
+	history = models.ForeignKey(Friendship, related_name="transactions")
+	owe_id = models.IntegerField(null=True, blank=True)
+	amount = models.FloatField(null=True, blank=True)
 
 def add_login_message(sender, user, request, **kwargs):
 	messages.success(request, "You have successfully logged in!")
 	return messages
+
+
 
 user_logged_in.connect(add_login_message)
