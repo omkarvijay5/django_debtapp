@@ -7,8 +7,9 @@
 	    <p>Name:</p> {{ user.username }}<br/>
 	    <a href=" {% url "friend_email_form" %}">Add a friend</a> <br/>
 		<a href=" {% url "debt_user_friends" user.username %}">Friends</a>
+		<img src="{{ user.userprofile.image }}" />
 	{% else %}
 	    <p>Please sign in</p>
 	{% endif %}
-	
+
 {% endblock %}
