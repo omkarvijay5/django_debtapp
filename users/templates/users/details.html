@@ -1,22 +1,15 @@
-{% if user.is_authenticated %}
-	{% if user.is_active %}
+{% extends "base.html" %}
+{% load i18n %}
 
-		<h1>User created successfully</h1>
+{% block content %}
+	{% if user.is_authenticated %}
+	    <p>Email:</p>{{ new_user.email }}
+	    <p>Name:</p> {{ new_user.username }}<br/>
+	    <a href=" {% url "friend_email_form" %}">Add a friend</a> <br/>
+		<a href=" {% url "debt_user_friends" user.username %}">Friends</a>
+		<img src="/{{ new_user.userprofile.image }}" />
+	{% else %}
+	    <p>Please sign in</p>
+	{% endif %}
 
-		<p>username is</p>
-		{{ new_user.username }}
-
-		<p>first name is</p>
-		{{ new_user.first_name }}
-
-		<p>lastname is</p>
-		{{ new_user.last_name }}
-
-		<p>email is</p>
-		{{ new_user.email }}<br/>
-
-		<a href="{%url "auth_logout"%}">Sign out</a>
-    {% endif %}
-{% else %}
-	<a href="{% url "user_signin"%}">Sig in</a>
-{% endif %}
+{% endblock %}

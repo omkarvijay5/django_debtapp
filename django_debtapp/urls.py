@@ -8,6 +8,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^accounts/', include('registration.auth_urls')),
-    url(r'^$', UserDetails.as_view(template_name="index.html")),
+    url(r'^$', UserDetails.as_view(), name='home_page'),
     url(r'^users/', include('users.urls')),
 )

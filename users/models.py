@@ -19,7 +19,7 @@ class Transactions(models.Model):
 
 class UserProfile(models.Model):
 	profile = models.OneToOneField(User, primary_key=True)
-	image = models.ImageField(upload_to = 'static/users/images/', default='static/users/images/gravatar.jpg')
+	image = models.ImageField(upload_to='/static/users/images/', default='static/users/images/gravatar.jpg')
 
 def add_login_message(sender, user, request, **kwargs):
 	messages.success(request, "You have successfully logged in!")

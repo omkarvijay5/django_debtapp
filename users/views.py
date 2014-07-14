@@ -35,7 +35,7 @@ class UserDetails(generic.DetailView):
 	context_object_name = 'new_user'
 
 	def get_object(self):
-		if self.kwargs['username']:
+		if 'username' in self.kwargs:
 			username = self.kwargs['username']
 			user = User.objects.get(username__exact=username)
 		else:
