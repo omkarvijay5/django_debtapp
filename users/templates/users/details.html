@@ -13,11 +13,9 @@
 		{{ new_user.last_name }}
 
 		<p>email is</p>
-		{{ new_user.email }}
+		{{ new_user.email }}<br/>
 
-		<form action="{% url "user_signout" %}" method="post">{% csrf_token %}
-		    <input id="user_logout" type="submit" value="Signout">
-		</form>
+		<a href="{%url "auth_logout"%}">Sign out</a>
     {% endif %}
 {% else %}
 	<a href="{% url "user_signin"%}">Sig in</a>

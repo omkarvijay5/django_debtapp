@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+	{% if friends %}
+		{% for friend in friends %}
+			{{ friend.username }}
+		{% endfor %}
+	{% endif %}
+{% endblock %} 

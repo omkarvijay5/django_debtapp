@@ -10,6 +10,6 @@
 	{% endif %}
 
 	<p>Friends of {{ user }} are</p>
-	{% if user.friends %}
-	{% endif %}
+	<a href=" {% url "friend_email_form" %}">Add a friend</a> <br/>
+	<a href=" {% url "debt_user_friends" user.username %}">Friends</a>
 {% endblock %}
