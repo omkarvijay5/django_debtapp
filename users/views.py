@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from users import forms
 from django.views import generic
 from django.core.urlresolvers import reverse
-from users.models import Friendship
 from django.contrib.auth.models import User
+from users.models import Friendship
+from users import forms
 # from django.dispatch import receiver
 
 # Create your views here.
