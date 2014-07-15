@@ -58,3 +58,15 @@ class UserFriendsView(generic.ListView):
 user_friends = UserFriendsView.as_view()
 
 
+class SplitAmountView(generic.FormView):
+    template_name = "users/amount_form.html"
+    form_class = forms.SplitBillForm
+
+    def get_form_kwargs(self):
+        kwargs = super(SplitAmountView, self).get_form_kwargs()
+        kwargs.update({'current_user': self.request.user})
+        return kwargs
+
+split_amount = SplitAmountView.as_view()
+
+

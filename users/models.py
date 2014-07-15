@@ -16,6 +16,7 @@ class Transaction(models.Model):
     history = models.ForeignKey(User, related_name="transactions")
     owe_id = models.IntegerField(null=True, blank=True)
     amount = models.FloatField(null=True, blank=True)
+    item = models.CharField(max_length=100, null=True, blank=True)
 
 class UserProfile(models.Model):
     profile = models.OneToOneField(User, primary_key=True)
