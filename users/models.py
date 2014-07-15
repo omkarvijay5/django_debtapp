@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.signals import user_logged_in
 from django.contrib import messages
 from django.contrib.auth.models import User
-
+from registration.signals import user_registered
 # Create your models here.
 
 class Friendship(models.Model):
@@ -25,6 +25,12 @@ def add_login_message(sender, user, request, **kwargs):
 	messages.success(request, "You have successfully logged in!")
 	return messages
 
-
-
 user_logged_in.connect(add_login_message)
+
+
+def add_image_to_user(sender, user, request, **kwargs):
+	user_profile = UserProfile.objects.create(profile=user)
+	user_profile.save()
+	return user_profile
+
+user_registered.connect(add_image_to_user)
