@@ -12,8 +12,8 @@ class Friendship(models.Model):
     owe = models.IntegerField(null=True, blank=True)
 
 
-class Transactions(models.Model):
-    history = models.ForeignKey(Friendship, related_name="transactions")
+class Transaction(models.Model):
+    history = models.ForeignKey(User, related_name="transactions")
     owe_id = models.IntegerField(null=True, blank=True)
     amount = models.FloatField(null=True, blank=True)
 
