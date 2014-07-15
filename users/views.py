@@ -14,7 +14,6 @@ class EmailFormView(generic.edit.FormView):
 	template_name = 'users/email_form.html'
 
 	def form_valid(self, form):
-		friend_email = form.cleaned_data['friend_email']
 		friend = User.objects.get(email__exact=friend_email)
 		user = self.request.user
 		friendship = Friendship.objects.create(user=user, friend=friend)

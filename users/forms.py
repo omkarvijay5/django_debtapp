@@ -11,3 +11,4 @@ class FriendEmailForm(forms.Form):
 			user = get_object_or_404(User,email=email)
 		except:
 			raise forms.ValidationError("Enter a registered email")
+		return email

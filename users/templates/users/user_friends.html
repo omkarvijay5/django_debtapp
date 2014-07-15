@@ -6,5 +6,7 @@
 		{% for friend in friends %}
 			<a href="{% url "debt_user_friends" friend.username %}">{{ friend.username }}</a>
 		{% endfor %}
+	{% else %}
+		<p>No friends for {{user.username}}</p>
 	{% endif %}
 {% endblock %} 
