@@ -3,12 +3,12 @@
 {% block content %}
 <h1 id="heading">Welcome to Debt app</h1>
 <div class="registration_form">
-	<form method="post" action=".">{% csrf_token %}
-	  {{ form.as_p }}
+    <form method="post" action=".">{% csrf_token %}
+      {{ form.as_p }}
 
-	  <input type="submit" value="{% trans 'Submit' %}" />
-	</form>
-	<p>Already a member?</p>
-	<a href="{% url "auth_login" %}" class="sign_in">Sign in</a>
+      <input type="submit" value="{% trans 'Submit' %}" />
+    </form>
+    <p>Already a member?</p>
+    <a href="{% url "auth_login" %}" class="sign_in">Sign in</a>
 </div>
 {% endblock %}

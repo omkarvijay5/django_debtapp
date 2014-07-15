@@ -1,14 +1,12 @@
-
-
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-{% if user.is_authenticated %}
-	<img class="user_image" src="/{{ new_user.userprofile.image }}" /><br/>
-	{{ new_user.username }}<br/>
-    <a href=" {% url "friend_email_form" %}">Add a friend</a> <br/>
-	<a href=" {% url "debt_user_friends" user.username %}">Friends</a>
-	{% else %}
-	    <p>Please sign in</p>
-	{% endif %}
+    {% if user.is_authenticated %}
+        <img class="user_image" src="/{{ new_user.userprofile.image }}" /><br/>
+        {{ new_user.username }}<br/>
+        <a href=" {% url "friend_email_form" %}">Add a friend</a> <br/>
+        <a href=" {% url "debt_user_friends" user.username %}">Friends</a>
+        {% else %}
+            <p>Please sign in</p>
+    {% endif %}
 {% endblock %}
