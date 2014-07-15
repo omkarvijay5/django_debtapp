@@ -47,8 +47,8 @@ SITE_ID = 1
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'omkarvijay5@gmail.com'
-EMAIL_HOST_PASSWORD = 'vlsibhavani'
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -98,3 +98,4 @@ ROOT_PATH = os.path.realpath(os.path.dirname('__file__'))
 TEMPLATE_DIRS = (
     ROOT_PATH + '/registration/templates/'
     )
+
