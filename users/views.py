@@ -64,7 +64,6 @@ user_friends = UserFriendsView.as_view()
 class SplitAmountView(generic.FormView):
     template_name = "users/amount_form.html"
     form_class = forms.SplitBillForm
-    success_url = "users/history.html"
 
     def get_form_kwargs(self):
         kwargs = super(SplitAmountView, self).get_form_kwargs()
@@ -93,10 +92,15 @@ class SplitAmountView(generic.FormView):
                 settled_amount = friendship.net_amount + split_amount
                 friendship.split_bill(settled_amount, friendship, reverse_friendship, split_amount)
             friendship.friend.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
-        paid_user.transactions.create(amount=split_amount, owe_id=paid_user.id)
+        paid_user.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
         friendship.save()
         reverse_friendship.save()
         super(SplitAmountView, self).form_valid(form)
+
+    def get_success_url(self):
+        user = self.request.user
+        return reverse('debt_user_history', kwargs={'username': user})
+
 
 
 split_amount = SplitAmountView.as_view()
