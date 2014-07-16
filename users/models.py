@@ -11,6 +11,18 @@ class Friendship(models.Model):
     net_amount = models.IntegerField(null=True, blank=True)
     owe = models.IntegerField(null=True, blank=True)
 
+    def split_bill(self, settle_amount, user_friendship, reverse_friendship, split_amount):
+        if settle_amount > 0:
+            user_friendship.net_amount = settle_amount
+            reverse_friendship.net_amount = settle_amount
+        elif settle_amount < 0:
+            user_friendship.net_amount = split_amount - user_friendship.net_amount
+            user_friendship.owe = user_friendship.friend.id
+            reverse_friendship.net_amount = split_amount - reverse_friendship.net_amount
+            reverse_friendship.owe = user_friendship.friend.id
+            user_friendship.save()
+            reverse_friendship.save()
+        return user_friendship
 
 class Transaction(models.Model):
     history = models.ForeignKey(User, related_name="transactions")

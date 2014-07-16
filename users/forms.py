@@ -21,7 +21,6 @@ def get_users(current_user):
     if friendships:
         users = [(friendship.friend, friendship.friend) for friendship in friendships]
         users.append(tuple([current_user, current_user]))
-        print "users", tuple(users)
     else:
         users = tuple([current_user,current_user])
     return users
@@ -36,10 +35,10 @@ class SplitBillForm(forms.Form):
                                                             widget=forms.CheckboxSelectMultiple()
                                                         )
         self.fields['friends'].label = "Friends whom you want to share"
-    item = forms.IntegerField(label="For What?", 
+    item = forms.CharField(label="For What?", 
                               widget=forms.TextInput(attrs={'placeholder': "ex: burger and petrol"})
                             )
-    amount = forms.FloatField(label="How much?",
+    amount = forms.IntegerField(label="How much?",
                               widget=forms.TextInput(attrs={'placeholder': "ex: 100 and 500"}) 
                               )
 

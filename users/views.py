@@ -64,11 +64,40 @@ user_friends = UserFriendsView.as_view()
 class SplitAmountView(generic.FormView):
     template_name = "users/amount_form.html"
     form_class = forms.SplitBillForm
+    success_url = "users/history.html"
 
     def get_form_kwargs(self):
         kwargs = super(SplitAmountView, self).get_form_kwargs()
         kwargs.update({'current_user': self.request.user})
         return kwargs
+
+    def form_valid(self, form):
+        amount = form.cleaned_data['amount']
+        item = form.cleaned_data['item']
+        friends = form.cleaned_data['friends']
+        paid_username = form.cleaned_data['paid_user']
+        paid_user = User.objects.get(username__exact=paid_username)
+        split_amount = amount/len(friends)
+        friendships = Friendship.objects.filter(user__exact=paid_user)
+        for friendship in friendships:
+            reverse_friendship = Friendship.objects.get(user=friendship.friend,friend=paid_user)
+            if not friendship.owe:
+                friendship.owe = friendship.friend.id
+                friendship.net_amount = split_amount
+                reverse_friendship.owe = friendship.friend.id
+                reverse_friendship.net_amount = split_amount
+            elif friendship.owe == paid_user.id:
+                settled_amount = friendship.net_amount - split_amount 
+                friendship.split_bill(settled_amount, friendship, reverse_friendship, split_amount)
+            elif friendship.user.id == paid_user.id:
+                settled_amount = friendship.net_amount + split_amount
+                friendship.split_bill(settled_amount, friendship, reverse_friendship, split_amount)
+            friendship.friend.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
+        paid_user.transactions.create(amount=split_amount, owe_id=paid_user.id)
+        friendship.save()
+        reverse_friendship.save()
+        super(SplitAmountView, self).form_valid(form)
+
 
 split_amount = SplitAmountView.as_view()
 
