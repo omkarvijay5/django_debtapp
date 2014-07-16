@@ -15,24 +15,33 @@ class FriendEmailForm(forms.Form):
             raise forms.ValidationError("Enter a registered email")
         return email
 
+def get_users(current_user):
+    current_user = User.objects.get(username__exact=current_user.username)
+    friendships = Friendship.objects.filter(user__exact=current_user)
+    if friendships:
+        users = [(friendship.friend, friendship.friend) for friendship in friendships]
+        users.append(tuple([current_user, current_user]))
+        print "users", tuple(users)
+    else:
+        users = tuple([current_user,current_user])
+    return users
+
 class SplitBillForm(forms.Form):
     def __init__(self,*args, **kwargs):
         current_user = kwargs.pop('current_user')
         super(SplitBillForm, self).__init__(*args, **kwargs)
-        self.fields['paid_user'] = forms.ChoiceField(choices=get_users(current_user), required=False)
-        self.fields['users'] = forms.MultipleChoiceField(choices=get_users(current_user), required=False)
-    item = forms.IntegerField(required=True)
+        self.fields['paid_user'] = forms.ChoiceField(choices=get_users(current_user))
+        self.fields['paid_user'].label = "Who paid?"
+        self.fields['friends'] = forms.MultipleChoiceField( choices=get_users(current_user), 
+                                                            widget=forms.CheckboxSelectMultiple()
+                                                        )
+        self.fields['friends'].label = "Friends whom you want to share"
+    item = forms.IntegerField(label="For What?", 
+                              widget=forms.TextInput(attrs={'placeholder': "ex: burger and petrol"})
+                            )
+    amount = forms.FloatField(label="How much?",
+                              widget=forms.TextInput(attrs={'placeholder': "ex: 100 and 500"}) 
+                              )
 
     class Meta:
         model = Transaction
-
-
-
-def get_users(current_user):
-    friendships = Friendship.objects.filter(user=current_user)
-    if friendships:
-        users = [friendship.friend.username for friendship in friendships]
-        users.add(current_user)
-    else:
-        users = []
-    return users

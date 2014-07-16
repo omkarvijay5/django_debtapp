@@ -4,6 +4,7 @@
 {% block content %}
     {% if friends %}
         {% for friend in friends %}
+            <img class="user_image" src ="/{{ friend.userprofile.image }}"><br/>
             <a href="{% url "debt_user_friends" friend.username %}">{{ friend.username }}</a>
         {% endfor %}
     {% else %}

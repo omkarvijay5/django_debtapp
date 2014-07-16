@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% block content%}
-    {{ form.as_p }}
-    {{ user }}
+    <h1>Split A Bill With Friends</h1>
+    {% if form.friends %}
+        {{ form.as_p }}
+    {% else %}
+        <p>No friends to share expenses. Please add friends</p>
+    {% endif %}
 {% endblock %}

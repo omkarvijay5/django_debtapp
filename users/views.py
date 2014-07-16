@@ -52,7 +52,10 @@ class UserFriendsView(generic.ListView):
         username = self.kwargs['username']
         user = User.objects.get(username__exact=username)
         friendships = Friendship.objects.filter(user__exact=user)
-        friends = [user.friend for user in friendships]
+        if friendships:
+            friends = [user.friend for user in friendships]
+        else:
+            friends = []
         return friends
 
 user_friends = UserFriendsView.as_view()
