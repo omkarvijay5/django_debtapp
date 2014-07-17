@@ -7,9 +7,10 @@
             <th>For</th>
         </thead>
         <tbody>
+            {% load debt_filters %}
             {% for transaction in transactions %}
                 <tr>
-                    <td>{{ transaction.owe_id }}</td>
+                    <td>{% i_owe_friend transaction user %}</td>
                     <td>{{ transaction.amount }}</td>
                     <td>{{ transaction.item }}</td>
                 </tr>

@@ -91,8 +91,8 @@ class SplitAmountView(generic.FormView):
             elif friendship.user.id == paid_user.id:
                 settled_amount = friendship.net_amount + split_amount
                 friendship.split_bill(settled_amount, friendship, reverse_friendship, split_amount)
-            friendship.friend.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
-        paid_user.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
+            reverse_friendship.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
+        friendship.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
         friendship.save()
         reverse_friendship.save()
         super(SplitAmountView, self).form_valid(form)
@@ -113,6 +113,5 @@ class UserHistoryView(generic.ListView):
         user = self.request.user
         transactions = user.transactions.all()
         return transactions
-
-
+        
 user_history = UserHistoryView.as_view()

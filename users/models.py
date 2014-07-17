@@ -25,7 +25,7 @@ class Friendship(models.Model):
         return user_friendship
 
 class Transaction(models.Model):
-    history = models.ForeignKey(User, related_name="transactions")
+    history = models.ForeignKey(Friendship, related_name="transactions")
     owe_id = models.IntegerField(null=True, blank=True)
     amount = models.FloatField(null=True, blank=True)
     item = models.CharField(max_length=100, null=True, blank=True)
