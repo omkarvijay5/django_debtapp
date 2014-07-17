@@ -44,3 +44,4 @@ class SplitBillForm(forms.Form):
 
     class Meta:
         model = Transaction
+

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from users.models import Friendship
+from users.models import Friendship, Transaction
 from users import forms
 # from django.dispatch import receiver
 
@@ -101,8 +101,18 @@ class SplitAmountView(generic.FormView):
         user = self.request.user
         return reverse('debt_user_history', kwargs={'username': user})
 
-
-
 split_amount = SplitAmountView.as_view()
 
 
+
+class UserHistoryView(generic.ListView):
+    template_name = 'users/user_history.html'
+    context_object_name = 'transactions'
+
+    def get_queryset(self):
+        user = self.request.user
+        transactions = user.transactions.all()
+        return transactions
+
+
+user_history = UserHistoryView.as_view()

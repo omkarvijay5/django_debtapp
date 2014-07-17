@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+    <table class="table">
+        <thead>
+            <th>Friend</th>
+            <th>Amount</th>
+            <th>For</th>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.owe_id }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{{ transaction.item }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

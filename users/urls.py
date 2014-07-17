@@ -5,4 +5,5 @@ urlpatterns = patterns('users.views',
         url(r'^(?P<username>[-\w]+)/$', 'user_details', name="debt_user_details"),
         url(r'^friends/(?P<username>[-\w]+)/$', 'user_friends', name='debt_user_friends'),
         url(r'^split/amount/$', 'split_amount', name='debt_split_amount'),
+        url(r'^history/(?P<username>[-\w]+)/$','user_history', name='debt_user_history'),
         )
