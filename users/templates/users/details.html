@@ -21,18 +21,15 @@
                     {% for friendship in friendships %}
                         {% if friendship.owe == friendship.user.id %}
                             <td> <p>I owe</p>
-                                <img class="friends_image" src="/{{ friendship.friend.userprofile.image }}" />
                                 {{ friendship.friend.username }}
                             </td>
-                            <td> <p>Amount</p>{{ friendship.net_amount }}</td>
-                        {% else %}
+                            <td> {{ friendship.net_amount }}</td>
+                        {% elif friendship.owe == friendship.friend.id %}
                             <td>
-                                {{ friendship.friend.username }}
-                                <p> owes me</p>
-                                <img src="/{{ friendship.friend.userprofile.image }}" />
+                                {{ friendship.friend.username }}<p> owes me</p>
                             </td>
-                            <td><p>Amount</p>{{ friendship.net_amount }}</td>
-                        {% endif %}        
+                            <td>{{ friendship.net_amount }}</td>
+                        {% endif %}      
                     {% endfor %}
                     </tr>
                 </tbody>

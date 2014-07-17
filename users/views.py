@@ -45,8 +45,9 @@ class UserDetails(generic.DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super(UserDetails, self).get_context_data(**kwargs)
         user = self.request.user
-        friendships = user.friendship_set.all()
+        friendships = Friendship.objects.filter(user__exact=user)
         context['friendships'] = friendships
+
         return context
 
 
@@ -121,7 +122,7 @@ class UserHistoryView(generic.ListView):
     def get_queryset(self):
         user = self.request.user
         transactions = []
-        friendships = user.friendship_set.all()
+        friendships = Friendship.objects.filter(user__exact=user)
         for friendship in friendships:
             for transaction in friendship.transactions.all():
                 transactions.append(transaction)
