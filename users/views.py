@@ -42,6 +42,15 @@ class UserDetails(generic.DetailView):
             user = self.request.user
         return user
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(UserDetails, self).get_context_data(**kwargs)
+        user = self.request.user
+        friendships = user.friendship_set.all()
+        context['friendships'] = friendships
+        return context
+
+
+
 user_details = UserDetails.as_view()
 
 class UserFriendsView(generic.ListView):

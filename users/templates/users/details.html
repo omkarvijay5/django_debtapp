@@ -8,7 +8,37 @@
         <a href= "{% url "debt_user_friends" user.username %}">Friends</a><br/>
         <a href= "{% url "debt_split_amount" %}">Split Amount</a><br/>
         <a href= "{% url "debt_user_history" user.username%}">History</a>
-        {% else %}
-            <p>Please sign in</p>
+        <div class="final_bill">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Friend</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                    {% for friendship in friendships %}
+                        {% if friendship.owe == friendship.user.id %}
+                            <td> <p>I owe</p>
+                                <img class="friends_image" src="/{{ friendship.friend.userprofile.image }}" />
+                                {{ friendship.friend.username }}
+                            </td>
+                            <td> <p>Amount</p>{{ friendship.net_amount }}</td>
+                        {% else %}
+                            <td>
+                                {{ friendship.friend.username }}
+                                <p> owes me</p>
+                                <img src="/{{ friendship.friend.userprofile.image }}" />
+                            </td>
+                            <td><p>Amount</p>{{ friendship.net_amount }}</td>
+                        {% endif %}        
+                    {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>Please sign in</p>
     {% endif %}
 {% endblock %}
