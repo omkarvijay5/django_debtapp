@@ -95,7 +95,7 @@ class SplitAmountView(generic.FormView):
         friendship.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
         friendship.save()
         reverse_friendship.save()
-        super(SplitAmountView, self).form_valid(form)
+        return super(SplitAmountView, self).form_valid(form)
 
     def get_success_url(self):
         user = self.request.user
@@ -111,7 +111,11 @@ class UserHistoryView(generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        transactions = user.transactions.all()
+        transactions = []
+        friendships = user.friendship_set.all()
+        for friendship in friendships:
+            for transaction in friendship.transactions.all():
+                transactions.append(transaction)
         return transactions
-        
+
 user_history = UserHistoryView.as_view()
