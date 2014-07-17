@@ -2,14 +2,21 @@ from django.shortcuts import render
 from django.views import generic
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from users.models import Friendship, Transaction
 from users import forms
 # from django.dispatch import receiver
 
 # Create your views here.
 
+class LoginRequiredMixin(object):
 
-class EmailFormView(generic.edit.FormView):
+    @method_decorator(login_required)
+    def dispatch(login_required):
+        return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
+
+class AddFriendView(LoginRequiredMixin, generic.edit.FormView):
     form_class = forms.FriendEmailForm
     template_name = 'users/email_form.html'
 
@@ -27,7 +34,7 @@ class EmailFormView(generic.edit.FormView):
         username = self.request.user.username
         return reverse('debt_user_friends', kwargs={'username': username})
 
-email_form = EmailFormView.as_view()
+add_friend = AddFriendView.as_view()
 
 
 class UserDetails(generic.DetailView):
@@ -47,10 +54,7 @@ class UserDetails(generic.DetailView):
         user = self.request.user
         friendships = Friendship.objects.filter(user__exact=user)
         context['friendships'] = friendships
-
         return context
-
-
 
 user_details = UserDetails.as_view()
 
