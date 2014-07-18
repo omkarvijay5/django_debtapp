@@ -13,7 +13,7 @@ from users import forms
 class LoginRequiredMixin(object):
 
     @method_decorator(login_required)
-    def dispatch(login_required):
+    def dispatch(self, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
 
 class AddFriendView(LoginRequiredMixin, generic.edit.FormView):
