@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.shortcuts import get_object_or_404
 from users.models import Friendship, Transaction
 from users import forms
 # from django.dispatch import receiver
@@ -44,14 +45,15 @@ class UserDetails(generic.DetailView):
     def get_object(self):
         if 'username' in self.kwargs:
             username = self.kwargs['username']
-            user = User.objects.get(username__exact=username)
+            user = get_object_or_404(User,username__exact=username)
         else:
             user = self.request.user
+        self.kwargs['new_user'] = user
         return user
 
     def get_context_data(self, *args, **kwargs):
         context = super(UserDetails, self).get_context_data(**kwargs)
-        user = self.request.user
+        user = self.kwargs['new_user']
         friendships = Friendship.objects.filter(user__exact=user)
         context['friendships'] = friendships
         return context

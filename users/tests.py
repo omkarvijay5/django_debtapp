@@ -3,6 +3,7 @@ from django.test.client import Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase, RequestFactory
+from users.views import AddFriendView, UserDetails
 # Create your tests here.
 
 class FriendshipTestCase(TestCase):
@@ -30,7 +31,31 @@ class FriendshipTestCase(TestCase):
         response = self.c.post(reverse('friend_email_form'),{'friend_email': 'invalidemail@gmail.com'})
         self.assertEqual(response.status_code,302)
         "testing with registered user but inactive"
-        new_friend = User.objects.create(username='newfriend',email='validemail@gmail.com',password='password')
+        self.new_friend = User.objects.create(username='newfriend',email='validemail@gmail.com',password='password')
         respone = self.c.post(reverse('friend_email_form'), {'friend_email': 'validemail@gmail.com'})
         self.assertEqual(response.status_code,302)
+
+    def test_user_details_view(self):
+        "checks for the valid url or else returns 404"
+        "testing for valid users without login"
+        response = self.c.get(reverse('debt_user_details', kwargs={'username': self.user.username}))
+        self.assertEqual(response.status_code, 200)
+        "testing for accessing friend url"
+        response = self.c.get(reverse('debt_user_details', kwargs={'username': self.friend}))
+        self.assertEqual(response.status_code, 200)
+        "testing valid user with login"
+        request = self.factory.get(reverse('debt_user_details', kwargs={'username': self.user.username}))
+        request.user = self.user
+        response = UserDetails.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+        "testing accessing friend url with login"
+        response = self.c.get(reverse('debt_user_details', kwargs={'username': self.friend.username}))
+        self.assertEqual(response.status_code, 200)
+        "Accessing invalid url"
+        response = self.c.get(reverse('debt_user_details', kwargs={'username': 'invaliduser'}))
+        self.assertEqual(response.status_code, 404)
+
+
+
+
 
