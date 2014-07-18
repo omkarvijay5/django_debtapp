@@ -10,4 +10,12 @@
     {% else %}
         <p>No friends for {{user.username}}</p>
     {% endif %}
+
+    {% if page_obj.has_next or page_obj.has_previous %}
+        {% if page_obj.has_next%}
+            <a href="{% url "debt_user_friends"%}">Next</a>
+        {% elif page_obj.has_previous %}
+            <a href="{% url "debt_user_friends"%}">Previous</a>
+        {% endif %}
+    {% endif %}
 {% endblock %} 

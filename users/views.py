@@ -63,6 +63,7 @@ user_details = UserDetails.as_view()
 class UserFriendsView(generic.ListView):
     template_name = "users/user_friends.html"
     context_object_name = 'friends'
+    paginate_by = 5
 
     def get_queryset(self):
         username = self.kwargs['username']
