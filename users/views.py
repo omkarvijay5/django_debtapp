@@ -66,7 +66,7 @@ class UserFriendsView(generic.ListView):
 
     def get_queryset(self):
         username = self.kwargs['username']
-        user = User.objects.get(username__exact=username)
+        user = get_object_or_404(User, username=username)
         friendships = Friendship.objects.filter(user__exact=user)
         if friendships:
             friends = [user.friend for user in friendships]
