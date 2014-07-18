@@ -55,6 +55,19 @@ class FriendshipTestCase(TestCase):
         response = self.c.get(reverse('debt_user_details', kwargs={'username': 'invaliduser'}))
         self.assertEqual(response.status_code, 404)
 
+    def test_user_friends_view(self):
+        "checks for valid url or else returns 404"
+        "testing for current user url"
+        response = self.c.get(reverse('debt_user_friends', kwargs={'username': self.user.username}))
+        self.assertEqual(response.status_code, 200)
+        "testing for friend url"
+        response = self.c.get(reverse('debt_user_friends', kwargs={'username': self.friend.username}))
+        self.assertEqual(response.status_code, 200)
+        "testing for invalid url"
+        response = self.c.get(reverse('debt_user_friends', kwargs={'username': 'invaliduser'}))
+        self.assertEqual(response.status_code, 404)
+
+
 
 
 
