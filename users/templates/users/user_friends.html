@@ -13,9 +13,9 @@
 
     {% if page_obj.has_next or page_obj.has_previous %}
         {% if page_obj.has_next%}
-            <a href="{% url "debt_user_friends"%}">Next</a>
+            <a href="{% url "debt_user_friends" user.username %}?page={{ page_obj.next_page_number }}">Next</a>
         {% elif page_obj.has_previous %}
-            <a href="{% url "debt_user_friends"%}">Previous</a>
+            <a href="{% url "debt_user_friends" user.username %}?page={{ page_obj.previous_page_number }}">Previous</a>
         {% endif %}
     {% endif %}
 {% endblock %} 

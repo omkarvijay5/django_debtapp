@@ -29,7 +29,7 @@ class AddFriendView(LoginRequiredMixin, generic.edit.FormView):
         reverse_friendship = Friendship.objects.create(user=friend, friend=user)
         friendship.save()
         reverse_friendship.save()
-        return super(EmailFormView, self).form_valid(form)
+        return super(AddFriendView, self).form_valid(form)
 
     def get_success_url(self):
         username = self.request.user.username
@@ -38,7 +38,7 @@ class AddFriendView(LoginRequiredMixin, generic.edit.FormView):
 add_friend = AddFriendView.as_view()
 
 
-class UserDetails(generic.DetailView):
+class UserDetails(LoginRequiredMixin, generic.DetailView):
     template_name = 'users/details.html'
     context_object_name = 'new_user'
 
@@ -60,7 +60,7 @@ class UserDetails(generic.DetailView):
 
 user_details = UserDetails.as_view()
 
-class UserFriendsView(generic.ListView):
+class UserFriendsView(LoginRequiredMixin,generic.ListView):
     template_name = "users/user_friends.html"
     context_object_name = 'friends'
     paginate_by = 5
@@ -68,6 +68,7 @@ class UserFriendsView(generic.ListView):
     def get_queryset(self):
         username = self.kwargs['username']
         user = get_object_or_404(User, username=username)
+        self.user = user
         friendships = Friendship.objects.filter(user__exact=user)
         if friendships:
             friends = [user.friend for user in friendships]

@@ -35,7 +35,7 @@ class UserProfile(models.Model):
     image = models.ImageField(upload_to='/static/users/images/', default='static/users/images/gravatar.jpg')
 
 def add_login_message(sender, user, request, **kwargs):
-    messages.success(request, "You have successfully logged in!")
+    messages.success(request, "You have successfully logged in!", fail_silently=True)
     return messages
 
 user_logged_in.connect(add_login_message)
