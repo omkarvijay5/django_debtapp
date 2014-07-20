@@ -79,7 +79,7 @@ class UserFriendsView(LoginRequiredMixin,generic.ListView):
 user_friends = UserFriendsView.as_view()
 
 
-class SplitAmountView(generic.FormView):
+class SplitAmountView(LoginRequiredMixin, generic.FormView):
     template_name = "users/amount_form.html"
     form_class = forms.SplitBillForm
 
@@ -93,7 +93,7 @@ class SplitAmountView(generic.FormView):
         item = form.cleaned_data['item']
         friends = form.cleaned_data['friends']
         paid_username = form.cleaned_data['paid_user']
-        paid_user = User.objects.get(username__exact=paid_username)
+        paid_user = get_object_or_404(User, username=paid_username)
         split_amount = amount/len(friends)
         friendships = Friendship.objects.filter(user__exact=paid_user)
         for friendship in friendships:
@@ -118,6 +118,13 @@ class SplitAmountView(generic.FormView):
     def get_success_url(self):
         user = self.request.user
         return reverse('debt_user_history', kwargs={'username': user})
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(SplitAmountView, self).get_context_data(**kwargs)
+        user = self.request.user
+        friends = user.friendship_set.all()
+        context['friends'] = friends
+        return friends
 
 split_amount = SplitAmountView.as_view()
 

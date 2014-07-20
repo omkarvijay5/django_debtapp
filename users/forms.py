@@ -28,6 +28,7 @@ def get_users(current_user):
 class SplitBillForm(forms.Form):
     def __init__(self,*args, **kwargs):
         current_user = kwargs.pop('current_user')
+        print "current user is", current_user
         super(SplitBillForm, self).__init__(*args, **kwargs)
         self.fields['paid_user'] = forms.ChoiceField(choices=get_users(current_user))
         self.fields['paid_user'].label = "Who paid?"

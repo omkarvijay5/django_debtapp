@@ -85,3 +85,13 @@ class FriendshipTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.c.get(reverse('debt_user_friends', kwargs={'username': self.user.username})+'?page=3')
         self.assertEqual(response.status_code, 404)
+
+    def test_split_amount_view(self):
+        "testing valid form"
+        response = self.c.get(reverse('debt_split_amount'))
+        self.assertEqual(response.status_code, 302)
+        "user login"
+        self.c.login(username='temporary', password='temporary')
+        response = self.c.get(reverse('debt_split_amount'))
+        self.assertEqual(response.status_code, 200)
+
