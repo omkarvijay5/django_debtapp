@@ -82,6 +82,7 @@ user_friends = UserFriendsView.as_view()
 class SplitAmountView(LoginRequiredMixin, generic.FormView):
     template_name = "users/amount_form.html"
     form_class = forms.SplitBillForm
+    context_object_name = 'friends'
 
     def get_form_kwargs(self):
         kwargs = super(SplitAmountView, self).get_form_kwargs()
@@ -124,7 +125,7 @@ class SplitAmountView(LoginRequiredMixin, generic.FormView):
         user = self.request.user
         friends = user.friendship_set.all()
         context['friends'] = friends
-        return friends
+        return context
 
 split_amount = SplitAmountView.as_view()
 

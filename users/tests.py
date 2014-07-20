@@ -94,4 +94,17 @@ class FriendshipTestCase(TestCase):
         self.c.login(username='temporary', password='temporary')
         response = self.c.get(reverse('debt_split_amount'))
         self.assertEqual(response.status_code, 200)
-
+        num_friends = 2
+        "creating friends"
+        for num in range(num_friends):
+            new_user = User.objects.create(username='test'+str(num), password='test')
+            Friendship.objects.create(user=self.user, friend=new_user)
+            Friendship.objects.create(user=new_user, friend=self.user)
+        response = self.c.post(reverse('debt_split_amount'),{'item':'','amount': 10, 'paid_user': self.friend})
+        self.assertEqual(response.status_code, 200)
+        response = self.c.post(reverse('debt_split_amount'), {'item': 'testitem', 'amount': None, 'paid_user': self.friend})
+        self.assertEqual(response.status_code, 200)
+        response = self.c.post(reverse('debt_split_amount'), {'item': 'testitem', 'amount': 10, 'paid_user': self.friend, 'friends': []})
+        self.assertEqual(response.status_code, 200)
+        response = self.c.post(reverse('debt_split_amount'), {'item': 'testitem', 'amount': 10, 'paid_user': self.friend, 'friends': [self.user,self.friend]})
+        self.assertEqual(response.status_code, 302)
