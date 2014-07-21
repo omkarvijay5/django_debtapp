@@ -56,6 +56,8 @@ class UserDetails(LoginRequiredMixin, generic.DetailView):
         user = self.kwargs['new_user']
         friendships = Friendship.objects.filter(user__exact=user)
         context['friendships'] = friendships
+        histories = [transaction for friendship in friendships for transaction in friendship.transactions.all()]
+        context.update({'histories': histories})
         return context
 
 user_details = UserDetails.as_view()

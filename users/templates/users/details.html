@@ -8,33 +8,35 @@
         <a href= "{% url "debt_user_friends" user.username %}">Friends</a><br/>
         <a href= "{% url "debt_split_amount" %}">Split Amount</a><br/>
         <a href= "{% url "debt_user_history" user.username%}">History</a>
-        <div class="final_bill">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Friend</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    {% for friendship in friendships %}
-                        {% if friendship.owe == friendship.user.id %}
-                            <td> <p>I owe</p>
-                                {{ friendship.friend.username }}
-                            </td>
-                            <td> {{ friendship.net_amount }}</td>
-                        {% elif friendship.owe == friendship.friend.id %}
-                            <td>
-                                {{ friendship.friend.username }}<p> owes me</p>
-                            </td>
-                            <td>{{ friendship.net_amount }}</td>
-                        {% endif %}      
-                    {% endfor %}
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        {% if histories %}
+            <div class="final_bill">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Friend</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        {% for friendship in friendships %}
+                            {% if friendship.owe == friendship.user.id %}
+                                <td> <p>I owe</p>
+                                    {{ friendship.friend.username }}
+                                </td>
+                                <td> {{ friendship.net_amount }}</td>
+                            {% elif friendship.owe == friendship.friend.id %}
+                                <td>
+                                    {{ friendship.friend.username }}<p> owes me</p>
+                                </td>
+                                <td>{{ friendship.net_amount }}</td>
+                            {% endif %}      
+                        {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
     {% else %}
         <p>Please sign in</p>
     {% endif %}
