@@ -111,9 +111,9 @@ class SplitAmountView(LoginRequiredMixin, generic.FormView):
                 settled_amount = friendship.net_amount + split_amount
                 friendship.split_bill(settled_amount, friendship, reverse_friendship, split_amount)
             reverse_friendship.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
-        friendship.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
-        friendship.save()
-        reverse_friendship.save()
+            friendship.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
+            friendship.save()
+            reverse_friendship.save()
         return super(SplitAmountView, self).form_valid(form)
 
     def get_success_url(self):

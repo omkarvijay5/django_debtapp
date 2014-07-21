@@ -29,10 +29,10 @@ class SplitBillForm(forms.Form):
     def __init__(self,*args, **kwargs):
         current_user = kwargs.pop('current_user')
         super(SplitBillForm, self).__init__(*args, **kwargs)
-        self.fields['paid_user'] = forms.ChoiceField(choices=get_users(current_user))
+        self.fields['paid_user'] = forms.ChoiceField(choices=get_users(current_user), required=False)
         self.fields['paid_user'].label = "Who paid?"
         self.fields['friends'] = forms.MultipleChoiceField( choices=get_users(current_user), 
-                                                            widget=forms.CheckboxSelectMultiple()
+                                                            widget=forms.CheckboxSelectMultiple(), required=False
                                                         )
         self.fields['friends'].label = "Friends whom you want to share"
     item = forms.CharField(label="For What?", 
@@ -44,4 +44,7 @@ class SplitBillForm(forms.Form):
 
     class Meta:
         model = Transaction
+
+
+        
 
