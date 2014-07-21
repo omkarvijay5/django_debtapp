@@ -148,3 +148,23 @@ class UserHistoryView(generic.ListView):
         return transactions
 
 user_history = UserHistoryView.as_view()
+
+
+class DebtDetails(generic.ListView):
+    template_name='users/user_debt.html'
+    context_object_name = 'friendships'
+
+    def get_queryset(self):
+        user = self.request.user
+        friendships = Friendship.objects.filter(user__exact=user)
+        return friendships
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(DebtDetails, self).get_context_data(**kwargs)
+        friendships = self.get_queryset()
+        histories = [transaction for friendship in friendships for transaction in friendship.transactions.all()]
+        context.update({'histories': histories})
+        return context
+
+user_debt_details = DebtDetails.as_view()
+

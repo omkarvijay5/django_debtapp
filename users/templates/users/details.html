@@ -5,9 +5,9 @@
         <img class="user_image" src="/{{ new_user.userprofile.image }}" /><br/>
         {{ new_user.username }}<br/>
         <a href= "{% url "friend_email_form" %}">Add a friend</a> <br/>
-        <a href= "{% url "debt_user_friends" user.username %}">Friends</a><br/>
+        <a href= "{% url "debt_user_friends" new_user.username %}">Friends</a><br/>
         <a href= "{% url "debt_split_amount" %}">Split Amount</a><br/>
-        <a href= "{% url "debt_user_history" user.username%}">History</a>
+        <a href= "{% url "debt_user_history" new_user.username%}">History</a>
         {% if histories %}
             <div class="final_bill">
                 <table class="table table-bordered">
