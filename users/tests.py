@@ -158,3 +158,16 @@ class FriendshipTestCase(TestCase):
         transactions = Friendship.objects.get(user=other_friend, friend=self.user).transactions.all()
         self.assertEqual(len(transactions),3)
         self.assertEqual(response.status_code, 302)
+
+    def test_for_user_history_view(self):
+        num_friends = 10
+        "creating users and friends"
+        for num in range(num_friends):
+            new_user = User.objects.create(username="temporary"+str(num), password='testpassword')
+            Friendship.objects.create(user=self.user, friend=new_user)
+            Friendship.objects.create(user=new_user, friend=self.user)
+        self.assertEqual(User.objects.count(),12)
+        self.assertEqual(Friendship.objects.count(), 20)
+        response = self.c.get(reverse('debt_user_history', kwargs={'username': self.user.username}))
+        response = self.c.get(reverse('debt_user_history', kwargs={'username': 'invaliduser'}))
+        self.assertEqual(response.status_code, 404)

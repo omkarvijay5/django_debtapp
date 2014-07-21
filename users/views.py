@@ -136,7 +136,8 @@ class UserHistoryView(generic.ListView):
     context_object_name = 'transactions'
 
     def get_queryset(self):
-        user = self.request.user
+        username=self.kwargs['username']
+        user = get_object_or_404(User, username=username)
         transactions = []
         friendships = Friendship.objects.filter(user__exact=user)
         for friendship in friendships:
