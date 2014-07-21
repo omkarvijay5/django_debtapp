@@ -48,17 +48,7 @@ class UserDetails(LoginRequiredMixin, generic.DetailView):
             user = get_object_or_404(User,username__exact=username)
         else:
             user = self.request.user
-        self.kwargs['new_user'] = user
         return user
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(UserDetails, self).get_context_data(**kwargs)
-        user = self.kwargs['new_user']
-        friendships = Friendship.objects.filter(user__exact=user)
-        context['friendships'] = friendships
-        histories = [transaction for friendship in friendships for transaction in friendship.transactions.all()]
-        context.update({'histories': histories})
-        return context
 
 user_details = UserDetails.as_view()
 
@@ -166,5 +156,5 @@ class DebtDetails(generic.ListView):
         context.update({'histories': histories})
         return context
 
-user_debt_details = DebtDetails.as_view()
+net_amount_details = DebtDetails.as_view()
 
