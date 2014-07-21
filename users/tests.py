@@ -189,7 +189,7 @@ class FriendshipTestCase(TestCase):
         self.assertEqual(friendship.net_amount,75)
         self.assertEqual(friendship.owe, self.user.id)
         self.assertEqual(reverse_friendship.net_amount, 75)
-        self.assertEqual(reverse_friendship.owe, self.user.id
+        self.assertEqual(reverse_friendship.owe, self.user.id)
 
 
     def test_for_user_history_view(self):
