@@ -4,15 +4,14 @@ python:
   - "2.7"
   - "2.6"
 env:
-  -  EMAIL_HOST_USER=abc@example.com EMAILHOST_PASSWORD=34wdf
+  - EMAIL_HOST_USER=abc@def.com EMAIL_HOST_PASSWORD=ae34
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: 
-  -  pip install -r requirements.txt 
-  -  pip install coveralls
+  -  pip install -r requirements.txt  --use-mirrors
+  -  pip install coveralls  --use-mirrors
 # command to run tests, e.g. python setup.py test
 script:  
-  -  python manage.py test
+  -  python manage.py test api
   -  coverage run --source="." manage.py test api application
-
 after_success:
   -  coveralls
