@@ -11,6 +11,8 @@ class Friendship(models.Model):
     net_amount = models.IntegerField(null=True, blank=True)
     owe = models.IntegerField(null=True, blank=True)
 
+    class Meta:
+        unique_together = (("user", "friend"),)
     def split_bill(self, settle_amount, user_friendship, reverse_friendship, split_amount):
         if settle_amount > 0:
             user_friendship.net_amount = settle_amount
@@ -23,6 +25,8 @@ class Friendship(models.Model):
             user_friendship.save()
             reverse_friendship.save()
         return user_friendship
+
+
 
 class Transaction(models.Model):
     history = models.ForeignKey(Friendship, related_name="transactions")
