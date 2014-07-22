@@ -18,11 +18,4 @@ def i_owe_friend(transaction, user):
         owe_user = User.objects.get(username=owe_user.username)
         return "%s Owes me"% owe_user.username
 
-@register.simple_tag
-def user_owe_friend(friendship, user):
-    if friendship.owe == user.id:
-        friend = User.objects.get(pk=friendship.friend.id)
-        return "I owe %s" % friend.username
-    else:
-        friend = User.objects.get(pk=friendship.friend.id)
-        return "%s owes me" % friend.username
+

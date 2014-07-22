@@ -16,7 +16,7 @@
                 <tbody>
                     {% for friendship in i_owe_friendships %}
                         <tr>
-                            <td>{% user_owe_friend friendship user%}</td>
+                            <td>{{ friendship.user.username }}</td>
                             <td>{{ friendship.net_amount }}</td>
                         </tr>
                     {% endfor %}
@@ -26,7 +26,11 @@
         {% endif %}
         {% if friend_owe_friendships %}
         <h4>FRIENDS OWE ME</h4>
-        <p id='net_amount'>{{ friends_owe_amount }}</p>
+        {% if friends_owe_amount == None %}
+            <p>0</p>
+        {% else %}
+            <p id='net_amount'>{{ friends_owe_amount }}</p>
+        {% endif %}
         <div class="i_owe_friends">
             <table class="table table-bordered">
                 <thead>
@@ -38,8 +42,13 @@
                 <tbody>
                     {% for friendship in friend_owe_friendships %}
                         <tr>
-                            <td>{% user_owe_friend friendship user%}</td>
-                            <td>{{ friendship.net_amount }}</td>
+                            {% if friendship.friend.net_amount == None %}
+                                <td>{{ friendship.friend.username }}</td>
+                                <td>0</td>
+                            {% else %}
+                                <td>{{ friendship.friend.username }}</td>
+                                <td>{{ friendship.net_amount }}</td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                 </tbody>
