@@ -1,7 +1,11 @@
 {% extends "base.html" %}
+{% load debt_filters %}
 {% block content %}
     {% if histories %}
-        <div class="final_bill">
+        {% if i_owe_friendships %}
+        <h4>I OWE FRIENDS</h4>
+        <p id='net_amount'>{{ i_owe_amount }}</p>
+        <div class="i_owe_friends">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -10,23 +14,37 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                    {% for friendship in friendships %}
-                        {% if friendship.owe == friendship.user.id %}
-                            <td> <p>I owe</p>
-                                {{ friendship.friend.username }}
-                            </td>
-                            <td> {{ friendship.net_amount }}</td>
-                        {% elif friendship.owe == friendship.friend.id %}
-                            <td>
-                                {{ friendship.friend.username }}<p> owes me</p>
-                            </td>
+                    {% for friendship in i_owe_friendships %}
+                        <tr>
+                            <td>{% user_owe_friend friendship user%}</td>
                             <td>{{ friendship.net_amount }}</td>
-                        {% endif %}      
+                        </tr>
                     {% endfor %}
-                    </tr>
                 </tbody>
             </table>
         </div>
+        {% endif %}
+        {% if friend_owe_friendships %}
+        <h4>FRIENDS OWE ME</h4>
+        <p id='net_amount'>{{ friends_owe_amount }}</p>
+        <div class="i_owe_friends">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Friend</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for friendship in friend_owe_friendships %}
+                        <tr>
+                            <td>{% user_owe_friend friendship user%}</td>
+                            <td>{{ friendship.net_amount }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
     {% endif %}
 {% endblock %}

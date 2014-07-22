@@ -5,7 +5,7 @@
     {% if friends %}
         {% for friend in friends %}
             <img class="user_image" src ="/{{ friend.userprofile.image }}"><br/>
-            <a href="{% url "debt_user_details" friend.username %}">{{ friend.username }}</a>
+            {{ friend.username }}
         {% endfor %}
     {% else %}
         <p>No friends for {{user.username}}</p>

@@ -5,8 +5,10 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
+from django.db.models import Sum
 from users.models import Friendship, Transaction
 from users import forms
+import pdb
 # from django.dispatch import receiver
 
 # Create your views here.
@@ -88,7 +90,8 @@ class SplitAmountView(LoginRequiredMixin, generic.FormView):
         paid_username = form.cleaned_data['paid_user']
         paid_user = get_object_or_404(User, username=paid_username)
         split_amount = amount/len(friends)
-        friendships = Friendship.objects.filter(user__exact=paid_user)
+        friends = [User.objects.get(username=friend) for friend in friends]
+        friendships = Friendship.objects.filter(user__exact=paid_user).filter(friend__in=friends)
         for friendship in friendships:
             reverse_friendship = Friendship.objects.get(user=friendship.friend,friend=paid_user)
             if not friendship.owe:
@@ -102,8 +105,8 @@ class SplitAmountView(LoginRequiredMixin, generic.FormView):
             elif friendship.user.id == paid_user.id:
                 settled_amount = friendship.net_amount + split_amount
                 friendship.split_bill(settled_amount, friendship, reverse_friendship, split_amount)
-            reverse_friendship.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
-            friendship.transactions.create(amount=split_amount, owe_id=paid_user.id, item=item)
+            reverse_friendship.transactions.create(amount=split_amount, owe_id=reverse_friendship.user.id, item=item)
+            friendship.transactions.create(amount=split_amount, owe_id=friendship.friend.id, item=item)
             friendship.save()
             reverse_friendship.save()
         return super(SplitAmountView, self).form_valid(form)
@@ -142,7 +145,6 @@ user_history = UserHistoryView.as_view()
 
 class DebtDetails(generic.ListView):
     template_name='users/user_debt.html'
-    context_object_name = 'friendships'
 
     def get_queryset(self):
         user = self.request.user
@@ -152,8 +154,17 @@ class DebtDetails(generic.ListView):
     def get_context_data(self, *args, **kwargs):
         context = super(DebtDetails, self).get_context_data(**kwargs)
         friendships = self.get_queryset()
+        user = self.request.user
+        i_owe_friends = friendships.filter(owe=user.id)
+        iowe_net_sum = i_owe_friends.aggregate(Sum('net_amount'))
+        friends_owe_me = friendships.exclude(owe=user.id)
+        friends_owe_sum = friends_owe_me.aggregate(Sum('net_amount'))
         histories = [transaction for friendship in friendships for transaction in friendship.transactions.all()]
-        context.update({'histories': histories})
+        payload = {'i_owe_friendships': i_owe_friends, 'friend_owe_friendships': friends_owe_me, 'histories': histories }
+        context.update(payload)
+        context['histories'] = histories
+        context['i_owe_amount'] = iowe_net_sum['net_amount__sum']
+        context['friends_owe_amount'] = friends_owe_sum['net_amount__sum']
         return context
 
 net_amount_details = DebtDetails.as_view()
