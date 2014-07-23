@@ -172,8 +172,10 @@ class DebtDetails(generic.ListView):
         iowe_net_sum = i_owe_friends.aggregate(Sum('net_amount'))
         friends_owe_me = friendships.exclude(owe=user.id)
         friends_owe_sum = friends_owe_me.aggregate(Sum('net_amount'))
-        histories = [
-            transaction for friendship in friendships for transaction in friendship.transactions.all()]
+        histories = []
+        for friendship in friendships:
+            for transaction in friendship.transactions.all():
+                histories.append(transaction)
         payload = {'i_owe_friendships': i_owe_friends,
                    'friend_owe_friendships': friends_owe_me,
                    'histories': histories}
