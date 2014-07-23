@@ -4,7 +4,7 @@ python:
   - "2.7"
   - "2.6"
 env:
-  - EMAIL_HOST_USER=abc@def.com  SECRET_KEY= abcd  EMAIL_HOST_PASSWORD=ae34 
+  - EMAIL_HOST_USER=abc@def.com  SECRET_KEY=abcd  EMAIL_HOST_PASSWORD=ae34 
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: 
