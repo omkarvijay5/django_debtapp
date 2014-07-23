@@ -113,6 +113,8 @@ class FriendshipTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         response = self.c.post(reverse('debt_split_amount'), {'item': 'testitem', 'amount': 10, 'paid_user': '', 'friends': self.user.username})
         self.assertEqual(response.status_code, 200)
+        response = self.c.post(reverse('debt_split_amount'), {'item': 'testitem', 'amount': 10, 'paid_user': self.user.username, 'friends': self.user.username})
+        self.assertEqual(response.status_code, 200)
         friend = User.objects.get(username__exact='test0')
         response = self.c.post(reverse('debt_split_amount'), {'item': 'testitem1', 'amount': 100, 'paid_user': self.user, 'friends': friend.username})
         "verifying creating transaction objects"

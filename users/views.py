@@ -8,7 +8,6 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Sum
 from users.models import Friendship, Transaction
 from users import forms
-import pdb
 # from django.dispatch import receiver
 
 # Create your views here.
@@ -93,7 +92,8 @@ class SplitAmountView(LoginRequiredMixin, generic.FormView):
         friends = [User.objects.get(username=friend) for friend in friends]
         friendships = Friendship.objects.filter(user__exact=paid_user).filter(friend__in=friends)
         for friendship in friendships:
-            reverse_friendship = Friendship.objects.get(user=friendship.friend,friend=paid_user)
+            reverse_friendship = Friendship.objects.get(user=friendship.friend,
+                                                        friend=paid_user)
             if not friendship.owe:
                 friendship.owe = friendship.friend.id
                 friendship.net_amount = split_amount
@@ -101,12 +101,18 @@ class SplitAmountView(LoginRequiredMixin, generic.FormView):
                 reverse_friendship.net_amount = split_amount
             elif friendship.owe == paid_user.id:
                 settled_amount = friendship.net_amount - split_amount 
-                friendship.split_bill(settled_amount, friendship, reverse_friendship, split_amount)
+                friendship.split_bill(settled_amount, friendship, 
+                                      reverse_friendship, split_amount)
             elif friendship.user.id == paid_user.id:
                 settled_amount = friendship.net_amount + split_amount
-                friendship.split_bill(settled_amount, friendship, reverse_friendship, split_amount)
-            reverse_friendship.transactions.create(amount=split_amount, owe_id=reverse_friendship.user.id, item=item)
-            friendship.transactions.create(amount=split_amount, owe_id=friendship.friend.id, item=item)
+                friendship.split_bill(settled_amount, friendship, 
+                                      reverse_friendship, split_amount)
+            reverse_friendship.transactions.create(amount=split_amount, 
+                                                   owe_id=reverse_friendship.user.id, 
+                                                   item=item)
+            friendship.transactions.create(amount=split_amount, 
+                                           owe_id=friendship.friend.id, 
+                                           item=item)
             friendship.save()
             reverse_friendship.save()
         return super(SplitAmountView, self).form_valid(form)
@@ -160,9 +166,10 @@ class DebtDetails(generic.ListView):
         friends_owe_me = friendships.exclude(owe=user.id)
         friends_owe_sum = friends_owe_me.aggregate(Sum('net_amount'))
         histories = [transaction for friendship in friendships for transaction in friendship.transactions.all()]
-        payload = {'i_owe_friendships': i_owe_friends, 'friend_owe_friendships': friends_owe_me, 'histories': histories }
+        payload = {'i_owe_friendships': i_owe_friends, 
+                   'friend_owe_friendships': friends_owe_me, 
+                   'histories': histories }
         context.update(payload)
-        context['histories'] = histories
         context['i_owe_amount'] = iowe_net_sum['net_amount__sum']
         context['friends_owe_amount'] = friends_owe_sum['net_amount__sum']
         return context
