@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-    {% if user.is_authenticated %}
-        <img class="user_image" src="/{{ new_user.userprofile.image }}" /><br/>
-        {{ new_user.username }}<br/>
+    {% if user.is_authenticated %}<img class="user_image" src="{{ MEDIA_URL }}{{ new_user.userprofile.image }}" /><br/>
+        <p id='username'>{{ new_user.username }}</p><br/>
         <a href= "{% url "friend_email_form" %}">Add a friend</a> <br/>
         <a href= "{% url "debt_user_friends" new_user.username %}">Friends</a><br/>
         <a href= "{% url "debt_split_amount" %}">Split Amount</a><br/>
         <a href= "{% url "debt_user_history" new_user.username%}">History</a>
+
         {% if histories %}
             <div class="final_bill">
                 <table class="table table-bordered">
@@ -40,4 +40,22 @@
     {% else %}
         <p>Please sign in</p>
     {% endif %}
+
+  <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div id="form-modal-body" class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<button type="button" class="comment-button">Change photo</button>
 {% endblock %}

@@ -6,8 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from django.db.models import Sum
-from users.models import Friendship, Transaction
+from users.models import Friendship, Transaction, UserProfile
 from users import forms
+import pdb
 # from django.dispatch import receiver
 
 # Create your views here.
@@ -19,6 +20,17 @@ class LoginRequiredMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
 
+class AjaxTemplateMixin(object):
+
+    def dispatch(self, request, *args, **kwargs):
+        if not hasattr(self, 'upload_image.html'):
+            split = self.template_name.split('.html')
+            split[-1] = '_ajax'
+            split.append('.html')
+            self.ajax_template_name = ''.join(split)
+        if request.is_ajax():
+            self.template_name = self.ajax_template_name
+        return super(AjaxTemplateMixin, self).dispatch(request, *args, **kwargs)
 
 class AddFriendView(LoginRequiredMixin, generic.edit.FormView):
     form_class = forms.FriendEmailForm
@@ -185,3 +197,29 @@ class DebtDetails(generic.ListView):
         return context
 
 net_amount_details = DebtDetails.as_view()
+
+class UserImageView(AjaxTemplateMixin, generic.edit.UpdateView):
+    model = User
+    template_name = 'users/upload_image.html'
+    form_class = forms.UserImageForm
+    success_url = '/'
+
+    def get_object(self):
+        username = self.kwargs['username']
+        user = User.objects.get(username=username)
+        try:
+            userprofile = user.userprofile
+        except:
+            userprofile = UserProfile.objects.create(profile=user)
+        return user
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            user = self.get_object()
+            userprofile = UserProfile.objects.get(profile=user)
+            userprofile.image = form.cleaned_data['image']
+            userprofile.save()
+        return super(UserImageView, self).post(request, *args, **kwargs)
+
+user_image = UserImageView.as_view()

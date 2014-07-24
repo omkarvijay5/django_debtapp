@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from users.models import Friendship, Transaction
+from users.models import Friendship, Transaction, UserProfile
 import pdb
 
 class FriendEmailForm(forms.Form):
@@ -56,6 +56,9 @@ class SplitBillForm(forms.Form):
                 raise forms.ValidationError('You cannot add bill to yourself. Please select atleast one friend')
         return cleaned_data
 
-
+class UserImageForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        exclude = ['profile']
         
 

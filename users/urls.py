@@ -7,4 +7,5 @@ urlpatterns = patterns('users.views',
         url(r'^split/amount/$', 'split_amount', name='debt_split_amount'),
         url(r'^history/(?P<username>[-\w]+)/$','user_history', name='debt_user_history'),
         url(r'^debt/details/$', 'net_amount_details', name='user_net_bill'),
+        url(r'^(?P<username>[-\w]+)/upload/image/$', 'user_image', name='debt_user_image'),
         )
