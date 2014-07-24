@@ -1,3 +1,4 @@
+from time import time
 from django.db import models
 from django.contrib.auth.signals import user_logged_in
 from django.contrib import messages
@@ -34,9 +35,12 @@ class Transaction(models.Model):
     amount = models.FloatField(null=True, blank=True)
     item = models.CharField(max_length=100, null=True, blank=True)
 
+def get_upload_file_name(instance, filename):
+    return "uploaded_files/%s_%s" % (str(time()).replace('.','_'), filename)
+
 class UserProfile(models.Model):
     profile = models.OneToOneField(User, primary_key=True)
-    image = models.ImageField(upload_to='/static/users/images/', default='static/users/images/gravatar.jpg')
+    image = models.ImageField(upload_to=get_upload_file_name, default='static/users/images/gravatar.jpg')
 
 def add_login_message(sender, user, request, **kwargs):
     messages.success(request, "You have successfully logged in!", fail_silently=True)
