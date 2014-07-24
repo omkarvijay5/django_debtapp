@@ -1,0 +1,6 @@
+<div class="row">
+    <form action="{% url "debt_user_image" user.username %}" method="post" enctype="multipart/form-data" class="form-horizontal">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="btn btn-submit col-md-offset-2" value="upload image">
+    </form>
+</div>
