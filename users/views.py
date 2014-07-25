@@ -168,7 +168,7 @@ class UserHistoryView(generic.ListView):
 user_history = UserHistoryView.as_view()
 
 
-class DebtDetails(generic.ListView):
+class DebtDetails(LoginRequiredMixin, generic.ListView):
     template_name = 'users/user_debt.html'
 
     def get_queryset(self):
@@ -198,7 +198,7 @@ class DebtDetails(generic.ListView):
 
 net_amount_details = DebtDetails.as_view()
 
-class UserImageView(AjaxTemplateMixin, generic.edit.UpdateView):
+class UserImageView(LoginRequiredMixin, AjaxTemplateMixin, generic.edit.UpdateView):
     model = User
     template_name = 'users/upload_image.html'
     form_class = forms.UserImageForm
