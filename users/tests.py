@@ -1,5 +1,5 @@
 from PIL import Image
-import StringIO
+from StringIO import StringIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.test  import TestCase
 from django.test.client import Client
