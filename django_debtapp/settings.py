@@ -50,6 +50,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'abc@example.com')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'testpassword')
+DEFAULT_FROM_EMAIL = 'omkarvijay5@gmail.com'
+SERVER_EMAIL = 'omkarvijay5@gmail.com'
 
 MIDDLEWARE_CLASSES = ( 
     'django.middleware.common.CommonMiddleware', 
