@@ -12,7 +12,7 @@ install:
   -  pip install coveralls  --use-mirrors
 # command to run tests, e.g. python setup.py test
 script:  
-  -  python manage.py test 
+  -  python manage.py test --settings=django_debtapp.settings.local
   -  coverage run --source="." manage.py test 
 after_success:
   -  coveralls
