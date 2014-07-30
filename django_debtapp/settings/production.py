@@ -16,6 +16,8 @@ DATABASES = {
 
 DEFAULT_FROM_EMAIL = 'omkarvijay5@gmail.com'
 SERVER_EMAIL = 'omkarvijay5@gmail.com'
-ALLOWED_HOSTS = ['http://django-debtapp.herokuapp.com/']
+
+ALLOWED_HOSTS = ['django-debtapp.herokuapp.com']
+
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
