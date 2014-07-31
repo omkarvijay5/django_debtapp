@@ -40,7 +40,7 @@ def get_upload_file_name(instance, filename):
 
 class UserProfile(models.Model):
     profile = models.OneToOneField(User, primary_key=True)
-    image = models.ImageField(upload_to=get_upload_file_name, default='static/users/images/gravatar.jpg')
+    image = models.ImageField(upload_to=get_upload_file_name, default='gravatar.jpg')
 
 def add_login_message(sender, user, request, **kwargs):
     messages.success(request, "You have successfully logged in!", fail_silently=True)
