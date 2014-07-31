@@ -101,3 +101,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages"
 )
+
+STATICFILES_DIRS = (
+    os.path.abspath('static'),
+    )
