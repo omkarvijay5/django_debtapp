@@ -1,1 +1,1 @@
-web: python manage.py runserver --settings=django_debtapp.settings.production 0.0.0.0:$PORT --insecure
+web: python manage.py runserver --settings=django_debtapp.settings.production 0.0.0.0:$PORT 
