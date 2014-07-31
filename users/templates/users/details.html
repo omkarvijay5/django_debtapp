@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
-    {% if user.is_authenticated %}<img class="user_image" src="{{ new_user.userprofile.image }}" /><br/>
+    {% if user.is_authenticated %}<img class="user_image" src="{{MEDIA_URL}}{{ new_user.userprofile.image }}" /><br/>
         <p id='username'>{{ new_user.username }}</p><br/>
         <a href= "{% url "friend_email_form" %}">Add a friend</a> <br/>
         <a href= "{% url "debt_user_friends" new_user.username %}">Friends</a><br/>
@@ -57,5 +57,5 @@
     </div>
   </div>
 </div>
-<button type="button" class="comment-button">Change photo</button>
+<button type="button" class="upload-image">Change photo</button>
 {% endblock %}
