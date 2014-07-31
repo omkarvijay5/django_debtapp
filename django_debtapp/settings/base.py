@@ -84,8 +84,8 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(''))
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles/')
+MEDIA_URL = '/mediafiles/'
 
 
 ROOT_PATH = os.path.realpath(os.path.dirname('__file__'))
