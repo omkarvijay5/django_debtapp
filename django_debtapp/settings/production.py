@@ -13,6 +13,8 @@ DATABASES = {
     }
 }
 
+SECRET_KEY = os.environ.get('SECRET_KEY','testkey')
+
 
 DEFAULT_FROM_EMAIL = 'omkarvijay5@gmail.com'
 SERVER_EMAIL = 'omkarvijay5@gmail.com'
