@@ -103,5 +103,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 STATICFILES_DIRS = (
+    os.path.abspath('users/static'),
     os.path.abspath('static'),
     )
