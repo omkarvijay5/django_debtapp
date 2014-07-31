@@ -1,3 +1,4 @@
+import pdb
 from django.shortcuts import render
 from django.views import generic
 from django.core.urlresolvers import reverse
@@ -8,7 +9,6 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Sum
 from users.models import Friendship, Transaction, UserProfile
 from users import forms
-import pdb
 # from django.dispatch import receiver
 
 # Create your views here.
@@ -211,15 +211,8 @@ class UserImageView(LoginRequiredMixin, AjaxTemplateMixin, generic.edit.UpdateVi
             userprofile = user.userprofile
         except:
             userprofile = UserProfile.objects.create(profile=user)
-        return user
 
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES)
-        if form.is_valid():
-            user = self.get_object()
-            userprofile = UserProfile.objects.get(profile=user)
-            userprofile.image = form.cleaned_data['image']
-            userprofile.save()
-        return super(UserImageView, self).post(request, *args, **kwargs)
+        return userprofile
+
 
 user_image = UserImageView.as_view()
