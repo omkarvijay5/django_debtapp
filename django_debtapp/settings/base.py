@@ -104,5 +104,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'users/static'),
     os.path.join(PROJECT_ROOT, 'static'),
     )
