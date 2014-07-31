@@ -19,5 +19,7 @@ SERVER_EMAIL = 'omkarvijay5@gmail.com'
 
 ALLOWED_HOSTS = ['django-debtapp.herokuapp.com']
 
+STATIC_FILES_DIRS = ()
+
 import dj_database_url
 DATABASES['default'] =  dj_database_url.config()
