@@ -169,7 +169,7 @@ class FriendshipTestCase(TestCase):
         self.assertEqual(len(transactions), 1)
         self.assertEqual(len(Transaction.objects.all()), 2)
         self.assertEqual(transactions[0].amount, 100)
-        self.assertEqual(transactions[0].owe_id, riend.id)
+        self.assertEqual(transactions[0].owe_id, friend.id)
         self.assertEqual(transactions[0].item, 'testitem1')
         transactions = Friendship.objects.get(
             user=self.user, friend=friend).transactions.all()
