@@ -4,7 +4,7 @@
 {% block content %}
     {% if friends %}
         {% for friend in friends %}
-            <img class="user_image" src ="/{{ friend.userprofile.image }}"><br/>
+            <img class="user_image" src ="{{ MEDIA_URL}}{{ friend.userprofile.image }}"><br/>
             {{ friend.username }}
         {% endfor %}
     {% else %}

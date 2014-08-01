@@ -13,6 +13,6 @@ install:
 # command to run tests, e.g. python setup.py test
 script:  
   -  python manage.py test --settings=django_debtapp.settings.local
-  -  coverage run --source="." manage.py test 
+  -  coverage run --source="." manage.py test --settings=django_debtapp.settings.local
 after_success:
   -  coveralls
