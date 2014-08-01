@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     url(r'^accounts/', include('registration.auth_urls')),
     url(r'^$', UserDetails.as_view(), name='debt_user_details'),
     url(r'^users/', include('users.urls')),
-) 
+)
 
 if settings.DEBUG:
     urlpatterns += patterns('',
@@ -28,5 +28,4 @@ if not settings.DEBUG:
         url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.MEDIA_ROOT,
         }),
-
 )

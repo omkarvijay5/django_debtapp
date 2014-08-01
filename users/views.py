@@ -20,6 +20,7 @@ class LoginRequiredMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(LoginRequiredMixin, self).dispatch(*args, **kwargs)
 
+
 class AjaxTemplateMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
@@ -30,7 +31,9 @@ class AjaxTemplateMixin(object):
             self.ajax_template_name = ''.join(split)
         if request.is_ajax():
             self.template_name = self.ajax_template_name
-        return super(AjaxTemplateMixin, self).dispatch(request, *args, **kwargs)
+        return super(AjaxTemplateMixin, self).dispatch(
+            request, *args, **kwargs)
+
 
 class AddFriendView(LoginRequiredMixin, generic.edit.FormView):
     form_class = forms.FriendEmailForm
@@ -198,7 +201,9 @@ class DebtDetails(LoginRequiredMixin, generic.ListView):
 
 net_amount_details = DebtDetails.as_view()
 
-class UserImageView(LoginRequiredMixin, AjaxTemplateMixin, generic.edit.UpdateView):
+
+class UserImageView(LoginRequiredMixin, AjaxTemplateMixin,
+                    generic.edit.UpdateView):
     model = User
     template_name = 'users/upload_image.html'
     form_class = forms.UserImageForm

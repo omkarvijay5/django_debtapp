@@ -13,8 +13,8 @@ DATABASES = {
 }
 
 INSTALLED_APPS += (
-	'django_extensions',
-	)
+    'django_extensions',
+    )
 
 
 EMAIL_USE_TLS = True

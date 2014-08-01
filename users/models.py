@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from registration.signals import user_registered
 # Create your models here.
 
+
 class Friendship(models.Model):
     user = models.ForeignKey(User, related_name="me")
     friend = models.ForeignKey(User)
@@ -14,19 +15,23 @@ class Friendship(models.Model):
 
     class Meta:
         unique_together = (("user", "friend"),)
-    def split_bill(self, settle_amount, user_friendship, reverse_friendship, split_amount):
+
+    def split_bill(
+            self, settle_amount, user_friendship, reverse_friendship,
+            split_amount):
         if settle_amount > 0:
             user_friendship.net_amount = settle_amount
             reverse_friendship.net_amount = settle_amount
         elif settle_amount < 0:
-            user_friendship.net_amount = split_amount - user_friendship.net_amount
+            user_friendship.net_amount = \
+                split_amount - user_friendship.net_amount
             user_friendship.owe = user_friendship.friend.id
-            reverse_friendship.net_amount = split_amount - reverse_friendship.net_amount
+            reverse_friendship.net_amount = \
+                split_amount - reverse_friendship.net_amount
             reverse_friendship.owe = user_friendship.friend.id
             user_friendship.save()
             reverse_friendship.save()
         return user_friendship
-
 
 
 class Transaction(models.Model):
@@ -35,15 +40,20 @@ class Transaction(models.Model):
     amount = models.FloatField(null=True, blank=True)
     item = models.CharField(max_length=100, null=True, blank=True)
 
+
 def get_upload_file_name(instance, filename):
-    return "uploaded_files/%s_%s" % (str(time()).replace('.','_'), filename)
+    return "uploaded_files/%s_%s" % (str(time()).replace('.', '_'), filename)
+
 
 class UserProfile(models.Model):
     profile = models.OneToOneField(User, primary_key=True)
-    image = models.ImageField(upload_to=get_upload_file_name, default='gravatar.jpg')
+    image = models.ImageField(
+        upload_to=get_upload_file_name, default='gravatar.jpg')
+
 
 def add_login_message(sender, user, request, **kwargs):
-    messages.success(request, "You have successfully logged in!", fail_silently=True)
+    messages.success(
+        request, "You have successfully logged in!", fail_silently=True)
     return messages
 
 user_logged_in.connect(add_login_message)
