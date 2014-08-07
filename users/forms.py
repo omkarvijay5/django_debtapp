@@ -25,7 +25,7 @@ def get_users(current_user):
         users = []
         for friendship in friendships:
             users.append((friendship.friend, friendship.friend))
-            users.append(tuple([current_user, current_user]))
+        users.append(tuple([current_user, current_user]))
     else:
         users = tuple([current_user, current_user])
     return users
