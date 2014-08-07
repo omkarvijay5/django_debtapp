@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url, static
 from django.contrib import admin
 from django.conf import settings
+from django.contrib.auth import views as auth_views
 from users.views import UserDetails
 admin.autodiscover()
 
@@ -9,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^accounts/', include('registration.auth_urls')),
+    url(r'^password/change/done/$', auth_views.password_change_done, name='password_change_done'),
     url(r'^$', UserDetails.as_view(), name='debt_user_details'),
     url(r'^users/', include('users.urls')),
 )
