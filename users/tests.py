@@ -1,13 +1,11 @@
 from PIL import Image
-from StringIO import StringIO
+from io import StringIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.test import TestCase
 from django.test.client import Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase, RequestFactory
 from users.models import Friendship, Transaction
-from users.views import AddFriendView, UserDetails
 # Create your tests here.
 
 
@@ -323,15 +321,6 @@ class FriendshipTestCase(TestCase):
         response = self.c.get(reverse(
             'debt_user_image', kwargs={'username': self.user.username}))
         self.assertEqual(response.status_code, 200)
-
-    def test_user_image(self):
-        response = self.c.get(reverse(
-            'debt_user_image', kwargs={'username': self.user.username}))
-        self.assertEqual(response.status_code, 302)
-        self.c.login(username='temporary', password='temporary')
-        response = self.c.get(reverse(
-            'debt_user_image', kwargs={'username': self.user.username}))
-        self.assertEqual(response.status_code, 200)
         response = self.c.post(reverse(
             'debt_user_image',
             kwargs={'username': self.user.username}),
@@ -343,7 +332,7 @@ def get_temporary_image():
     io = StringIO.StringIO()
     size = (200, 200)
     color = (255, 0, 0, 0)
-    image = Image.new("RGBA", size_color)
+    image = Image.new("RGBA", size, color)
     image.save(io, format='JPEG')
     image_file = InMemoryUploadedFile(
         io, None, 'foo.jpg', 'jpeg', io.len, None)

@@ -1,8 +1,6 @@
-import pdb
 from django.contrib.auth.models import User
 from django import forms
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
 from users.models import Friendship, Transaction, UserProfile
 
 

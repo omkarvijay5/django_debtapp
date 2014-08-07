@@ -1,5 +1,3 @@
-import pdb
-from django.shortcuts import render
 from django.views import generic
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -7,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from django.db.models import Sum
-from users.models import Friendship, Transaction, UserProfile
+from users.models import Friendship, UserProfile
 from users import forms
 # from django.dispatch import receiver
 
@@ -84,7 +82,7 @@ class UserFriendsView(LoginRequiredMixin, generic.ListView):
         self.user = user
         friendships = Friendship.objects.filter(user__exact=user)
         if friendships:
-            friends = [user.friend for user in friendships]
+            friends = [friendship.friend for friendship in friendships]
         else:
             friends = []
         return friends
