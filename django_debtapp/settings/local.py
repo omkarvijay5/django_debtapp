@@ -15,10 +15,3 @@ DATABASES = {
 INSTALLED_APPS += (
     'django_extensions',
     )
-
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'asdasdas'
-EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
-SECRET_KEY = os.environ['SECRET_KEY']
