@@ -2,7 +2,9 @@ from django.conf.urls import patterns, include, url, static
 from django.contrib import admin
 from django.conf import settings
 from django.contrib.auth import views as auth_views
+
 from users.views import UserDetails
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
