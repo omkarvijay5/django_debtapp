@@ -1,8 +1,10 @@
 from time import time
+
 from django.db import models
 from django.contrib.auth.signals import user_logged_in
 from django.contrib import messages
 from django.contrib.auth.models import User
+
 from registration.signals import user_registered
 # Create your models here.
 

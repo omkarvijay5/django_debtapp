@@ -1,10 +1,12 @@
 from PIL import Image
 from io import StringIO
+
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.test.client import Client
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase, RequestFactory
+
 from users.models import Friendship, Transaction
 # Create your tests here.
 

@@ -9,4 +9,31 @@
     {% else %}
         <p>No friends to share expenses. Please add friends</p>
     {% endif %}
+
+    <div class="panel panel-info">
+        <div class="panel-heading">Split a bill with friends.!!!</div>
+        <div class="panel panel-default pull-left">
+            <div class="panel-heading">Quick Add</div>
+            <div class="panel-body">
+                <div class="quick_add">
+                {% for friend in friends %}
+                    <p> {{friend}} </p>
+                    <a href="#" onclick="myFunction(this); return false;"><img class="user_image" src="{{MEDIA_URL}}{{ friend.userprofile.image }}" /></a>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="active"><a href="#">Split Equally</a></li>
+                <li><a href="#">Split by amount</a></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+    function myFunction(this){
+        alert($(this)[0])
+    }
+    </script>
+
 {% endblock %}

@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
 from django.db.models import Sum
+
 from users.models import Friendship, UserProfile
 from users import forms
 # from django.dispatch import receiver
@@ -145,7 +146,8 @@ class SplitAmountView(LoginRequiredMixin, generic.FormView):
     def get_context_data(self, *args, **kwargs):
         context = super(SplitAmountView, self).get_context_data(**kwargs)
         user = self.request.user
-        friends = user.friendship_set.all()
+        friendships = Friendship.objects.filter(user=user)
+        friends = [friendship.friend for friendship in friendships]
         context['friends'] = friends
         return context
 
